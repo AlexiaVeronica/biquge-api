@@ -1,15 +1,11 @@
 import fastapi
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
-from api import book, chapter, search
+from api import api_root
 
 app = fastapi.FastAPI()
 
-app.include_router(book.book_info_api, prefix="/api")
-
-app.include_router(search.search_info_api, prefix="/api")
-
-app.include_router(chapter.chapter_info_api, prefix="/api")
+app.include_router(api_root, prefix="/api")
 
 
 @app.get("/")
