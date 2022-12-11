@@ -44,8 +44,15 @@ async def search_api(q: str):
 
 
 @api_root.get("/chapter", response_model=Union[model.Response200, model.Response404])
-async def content_api(book_id, chapter_id: str):
-    response = src.request(url="https://www.qu-la.com/booktxt/{}/{}.html".format(book_id, chapter_id))
+async def content_api(book_id: int, chapter_id: int):
+    chapter_params = model.ChapterParams(book_id=book_id, chapter_id=chapter_id)
+    if chapter_params.book_id == 0:
+        return model.Response404(message="missing book_id parameter")
+    if chapter_params.chapter_id == 0:
+        return model.Response404(message="missing chapter_id parameter")
+    response = src.request(
+        url="https://www.qu-la.com/booktxt/{}/{}.html".format(chapter_params.book_id, chapter_params.chapter_id)
+    )
     if response is not None:
         chapter_info = model.Chapter(
             chapter_title=response.xpath(src.rule.Chapter.chapter_title)[0].strip(),
@@ -53,4 +60,4 @@ async def content_api(book_id, chapter_id: str):
         )
         return model.Response200(data=chapter_info.dict())
 
-    return model.Response404(message="get chapter info failed, chapter_id is {}".format(chapter_id))
+    return model.Response404(message="get chapter info failed, chapter_id is {}".format(chapter_params.chapter_id))
