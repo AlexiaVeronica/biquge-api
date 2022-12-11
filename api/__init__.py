@@ -29,8 +29,8 @@ async def book_description(book_id: str):
 
 
 @api_root.get("/search", response_model=Union[model.Response200, model.Response404])
-async def search_api(q: str):
-    response = Data.search(q)
+async def search_api(keyword: str):
+    response = Data.search(keyword)
     if response is not None:
         search_result = []
         for i in response.xpath(model.BookXpath.search_result):
@@ -39,11 +39,13 @@ async def search_api(q: str):
                 'book_url': i.attrib['href'].replace('http://www.qu-la.com/book/goto/id/', ''),
             })
         return model.Response200(data=model.Search(search_result=search_result).dict())
-    return model.Response404(message="search failed, keyword is {}".format(q))
+    return model.Response404(message="search failed, keyword is {}".format(keyword))
 
 
 @api_root.get("/chapter", response_model=Union[model.Response200, model.Response404])
-async def content_api(book_id: Union[str, int], chapter_id: Union[str, int]):
+async def content_api(book_id: Union[str, int] = 0, chapter_id: Union[str, int] = 0):
+    if book_id == 0 or chapter_id == 0:
+        return model.Response404(message="missing book_id or chapter_id")
     response = Data.chapter(book_id, chapter_id)
     if response is not None:
         chapter_info = model.Chapter(

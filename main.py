@@ -10,10 +10,10 @@ app.include_router(api_root, prefix="/api")
 
 @app.get("/")
 def read_root():
-    return {"Hello": "Hello World"}
+    return {"Hello": "you are welcome to use this api, please visit /api/docs to get more info"}
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],  # 设置允许访问的域名,"*"，即为所有,允许的origins来源

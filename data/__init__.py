@@ -25,3 +25,4 @@ class Data:
     def search(keyword):
         params = {"ie": "utf-8", "siteid": "qu-la.com", "q": keyword}
         return request(url="https://so.biqusoso.com/s1.php", params=params, encoding='utf-8')
+
