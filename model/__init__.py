@@ -1,17 +1,17 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Union
 
 
 class BookInfo(BaseModel):
     book_id: str
     book_name: str
-    author_name: str
-    update_time: str
-    update_chapter: str
-    description: str
-    book_state: str
-    cover_url: str
-    catalogue: list
+    author_name: Union[str, None]
+    update_time: Union[str, None]
+    update_chapter: Union[str, None]
+    description: Union[str, None]
+    book_state: Union[str, None]
+    cover_url: Union[str, None]
+    catalogue: List[dict]
 
 
 class Chapter(BaseModel):
@@ -23,9 +23,9 @@ class Search(BaseModel):
     search_result: list[dict[str, str]]
 
 
-class ChapterParams(BaseModel):
-    book_id: int = 0
-    chapter_id: int = 0
+# class ChapterParams(BaseModel):
+#     book_id: int = 0
+#     chapter_id: int = 0
 
 
 class Response200(BaseModel):
@@ -49,3 +49,17 @@ class Response500(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class BookXpath:
+    book_name: str = '//*[@id="list"]/div[1]/div[2]/h1/text()'
+    author_name: str = '//*[@id="list"]/div[1]/div[2]/span/text()'
+    update_time: str = '//*[@id="list"]/div[2]/p[2]/span/text()'
+    update_chapter: str = '//*[@id="list"]/div[2]/p[2]/a/text()'
+    description: str = '//*[@id="list"]/div[1]/div[2]/div[2]/text()'
+    book_state: str = '//*[@id="list"]/div[1]/div[2]/div[1]/span[2]/text()'
+    catalogue: str = '//*[@id="list"]/div[3]/ul[2]/li/a'
+    cover_url: str = '//*[@id="fengmian"]/a/img/@src'
+    search_result: str = '//*[@id="search-main"]/div[1]/ul/li/span/a'
+    chapter_title: str = '//*[@id="chapter-title"]/h1/text()'
+    content: str = '//*[@id="txt"]/text()'
