@@ -5,17 +5,12 @@ from lxml import etree
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'}
 
 
-def request(url, method="GET", params=None, retry=3, encoding="GBK"):
+def request(url, method="GET", params=None, encoding="GBK"):
     result = requests.request(method=method, url=url, params=params, headers=headers)
     result.encoding = encoding
     if result.status_code == 200:
         return etree.HTML(result.text)
-    else:
-        if retry != 0:
-            return etree.HTML(request(url, method, params, retry - 1).text)
-        else:
-            print("request error, url is {}".format(url))
-            return result.status_code
+    return None
 
 
 # print(request("https://www.qu-la.com/booktxt/{}".format(48697379116)))
@@ -31,4 +26,3 @@ def search_api(book_name: str):
         except Exception as error:
             print("search_api error, url is {}".format(error))
             return []
-
