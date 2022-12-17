@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, List, Union
+from enum import Enum
 
 
 class BookInfo(BaseModel):
@@ -45,10 +46,38 @@ class Response500(BaseModel):
     message: str = "server error"
     data: Optional[dict] = None
 
+class ResponseMissing(BaseModel):
+    code: int = 400
+    message: str = "missing params"
+    data: Union[dict, list] = {}
+
+class ResponseError(BaseModel):
+    code: int = 500
+    message: str = "server error"
+    data: Union[dict, list] = {}
+
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class Rank(str, Enum):
+    day = "dayvisit"
+    week = "weekvisit"
+    month = "monthvisit"
+    total = "allvisit"
+
+
+class BookClass(str, Enum):
+    xh = "class1"
+    xj = "class2"
+    ds = "class3"
+    cy = "class4"
+    wy = "class5"
+    kh = "class6"
+    qt = "class7"
+    finish = "finish"
 
 
 class BookXpath:
@@ -63,3 +92,5 @@ class BookXpath:
     search_result: str = '//*[@id="search-main"]/div[1]/ul/li/span/a'
     chapter_title: str = '//*[@id="chapter-title"]/h1/text()'
     content: str = '//*[@id="txt"]/text()'
+    rank_result: str = '/html/body/div/div[2]/div[2]/div[1]/ul/li/div[3]/h4/a'
+    class_result: str = '/html/body/div/div[2]/div[2]/div[1]/ul/li/div[2]/h4/a'
