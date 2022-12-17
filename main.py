@@ -1,9 +1,7 @@
-import time
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 from api import api_root
-from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -21,11 +19,9 @@ def read_root():
 #     is_offer: Optional[int] = None
 from enum import Enum
 
-
-class UserInfo(BaseModel):
-    user_name: str
-    user_id: str
-
+# class UserInfo(BaseModel):
+#     user_name: str
+#     user_id: str
 
 # @app.get("/test")
 # def read_test(

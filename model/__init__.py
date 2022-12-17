@@ -24,11 +24,6 @@ class Search(BaseModel):
     search_result: list[dict[str, str]]
 
 
-# class ChapterParams(BaseModel):
-#     book_id: int = 0
-#     chapter_id: int = 0
-
-
 class Response200(BaseModel):
     code: int = 200
     message: str = "success"
